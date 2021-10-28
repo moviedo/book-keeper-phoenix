@@ -18,7 +18,9 @@ This commands runs the following:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-Run `gmake stop` to stop the docker containers and your application.
+Run `make stop` to stop the docker containers and your application.
+
+Run `make help` for all available command options.
 
 ## Learn more
 

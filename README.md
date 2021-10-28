@@ -7,10 +7,9 @@ make 3.82
   1. Optional instructions
   1. Install through [brew](https://brew.sh/)
   1. Install make, `brew install make`
-  1. Use make to setup dev, `gmake install_dev`
 
 ## Setup
-To start your Phoenix server run the command `gmake start`.
+To start your Phoenix server run the command `make start` or `gmake start`.
 
 This commands runs the following:
   * Install dependencies with `mix deps.get`

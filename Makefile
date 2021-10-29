@@ -21,9 +21,10 @@ start_docker:
 	docker-compose run web mix ecto.setup && \
 	docker-compose -f docker-compose.yml up -d --remove-orphans 
 
-## start development environment with docker-compose
+## start/restart development environment with docker-compose
 start: 
-	@make install_deps || make start_docker
+	- @make install_deps
+	make start_docker
 
 ## stop development environment with docker-compose
 stop: 

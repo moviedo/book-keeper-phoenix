@@ -55,3 +55,15 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :git_hooks,
+  auto_install: true,
+  verbose: true,
+  mix_path: "docker exec --tty $(docker-compose ps -q web) mix",
+  hooks: [
+    pre_commit: [
+      tasks: [
+        {:mix_task, :format, ["--check-formatted"]}
+      ]
+    ]
+  ]

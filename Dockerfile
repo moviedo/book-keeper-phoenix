@@ -15,5 +15,7 @@ RUN apk update && apk add inotify-tools \
     inotify-tools \
     && rm -rf /var/lib/apt/lists/*
 
+RUN apk add git
+
 # When this image is run, make /app the current working directory
 WORKDIR /app

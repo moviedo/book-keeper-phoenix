@@ -15,6 +15,14 @@ install_deps:
 	elixir:1.12-alpine \
 	sh -c "mix local.hex --force && mix deps.get"
 
+## Checks linting on elixir files with formatter
+lint: 
+	@docker exec web mix format --check-formatted
+
+## Lints the project and replaces in place the linted files.
+lint_fix:
+	@docker exec web mix format
+	
 ## start docker-compose containers
 start_docker:
 	@docker-compose down && \

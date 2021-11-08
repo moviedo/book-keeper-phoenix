@@ -23,6 +23,14 @@ lint:
 lint_fix:
 	@docker exec web mix format
 	
+## create new phoenix project: make new_project APP=example
+new_project: 
+	@docker run \
+	-v "/$$(pwd)":/app \
+	-w /app \
+	elixir:1.12-alpine \
+	sh -c "mix local.hex --force && mix archive.install hex phx_new --force && mix phx.new ${APP} --install --no-html --no-assets"
+
 ## start docker-compose containers
 start_docker:
 	@docker-compose down && \
@@ -37,14 +45,6 @@ start:
 ## stop development environment with docker-compose
 stop: 
 	@docker-compose down
-
-## create new phoenix project with given name
-new_project: 
-	@docker run \
-	-v "/$$(pwd)":/app \
-	-w /app \
-	elixir:1.12-alpine \
-	sh -c "mix local.hex --force && mix archive.install hex phx_new --force && mix phx.new ${1} --install --no-html --no-assets"
 
 # Credit: https://gist.github.com/prwhite/8168133#gistcomment-2749866
 help:

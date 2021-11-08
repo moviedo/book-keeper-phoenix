@@ -22,7 +22,7 @@ lint:
 ## Lints the project and replaces in place the linted files.
 lint_fix:
 	@docker exec web mix format
-	
+
 ## create new phoenix project: make new_project APP=example
 new_project: 
 	@docker run \
@@ -31,13 +31,17 @@ new_project:
 	elixir:1.12-alpine \
 	sh -c "mix local.hex --force && mix archive.install hex phx_new --force && mix phx.new ${APP} --install --no-html --no-assets"
 
+## restart web container so phoenix server can rebuild/restart
+restart:
+	@docker container restart web
+
 ## start docker-compose containers
 start_docker:
 	@docker-compose down && \
 	docker-compose run web mix ecto.setup && \
 	docker-compose -f docker-compose.yml up -d --remove-orphans 
 
-## start/restart development environment with docker-compose
+## start development environment with docker-compose
 start: 
 	- @make install_deps
 	make start_docker

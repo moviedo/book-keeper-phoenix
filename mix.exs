@@ -44,7 +44,10 @@ defmodule BookKeeper.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:git_hooks, "~> 0.6.4", only: [:dev], runtime: false}
+
+      # Dev dependencies
+      {:git_hooks, "~> 0.6.4", only: :dev, runtime: false},
+      {:git_ops, "~> 2.4.5", only: :dev}
     ]
   end
 

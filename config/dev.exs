@@ -56,14 +56,67 @@ config :phoenix, :stacktrace_depth, 20
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
+# githooks configuration
 config :git_hooks,
   auto_install: true,
   verbose: true,
   mix_path: "docker exec --tty $(docker-compose ps -q web) mix",
   hooks: [
+    commit_msg: [
+      tasks: [
+        {:cmd, "mix git_ops.check_message", include_hook_args: true}
+      ]
+    ],
     pre_commit: [
       tasks: [
         {:mix_task, :format, ["--check-formatted"]}
       ]
     ]
   ]
+
+# Conventional commit tool configuration
+config :git_ops,
+  mix_project: Mix.Project.get!(),
+  changelog_file: "CHANGELOG.md",
+  repository_url: "https://gitlab.com/ToMauro/book-keeper-phoenix",
+  types: [
+    build: [
+      hidden?: true
+    ],
+    chore: [
+      hidden?: true
+    ],
+    ci: [
+      hidden?: true
+    ],
+    docs: [
+      hidden?: true
+    ],
+    feat: [
+      header: "Features",
+      hidden?: false
+    ],
+    fix: [
+      header: "Bug Fixes",
+      hidden?: false
+    ],
+    improvement: [
+      header: "Improvements",
+      hidden?: false
+    ],
+    perf: [
+      header: "Performance Improvements",
+      hidden?: false
+    ],
+    refactor: [
+      hidden?: true
+    ],
+    style: [
+      hidden?: true
+    ],
+    test: [
+      hidden?: true
+    ]
+  ],
+  manage_mix_version?: true,
+  version_tag_prefix: "v"

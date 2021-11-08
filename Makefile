@@ -31,6 +31,10 @@ new_project:
 	elixir:1.12-alpine \
 	sh -c "mix local.hex --force && mix archive.install hex phx_new --force && mix phx.new ${APP} --install --no-html --no-assets"
 
+## project release and tag using conventional commit
+release:
+	@docker-compose run web mix git_ops.release
+
 ## restart web container so phoenix server can rebuild/restart
 restart:
 	@docker container restart web

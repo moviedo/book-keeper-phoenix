@@ -46,6 +46,7 @@ defmodule BookKeeper.MixProject do
       {:plug_cowboy, "~> 2.5"},
 
       # Dev dependencies
+      {:credo, "~> 1.4", only: [:dev, :test], runtime: false},
       {:git_hooks, "~> 0.6.4", only: :dev, runtime: false},
       {:git_ops, "~> 2.4.5", only: :dev}
     ]

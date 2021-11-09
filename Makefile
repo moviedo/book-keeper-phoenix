@@ -17,11 +17,11 @@ install_deps:
 
 ## Checks linting on elixir files with formatter
 lint: 
-	@docker exec web mix format --check-formatted
+	@docker-compose exec web mix format --check-formatted && docker-compose exec web mix credo --strict
 
 ## Lints the project and replaces in place the linted files.
 lint_fix:
-	@docker exec web mix format
+	@docker-compose exec web mix format
 
 ## create new phoenix project: make new_project APP=example
 new_project: 

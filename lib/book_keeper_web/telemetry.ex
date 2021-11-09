@@ -1,4 +1,9 @@
 defmodule BookKeeperWeb.Telemetry do
+  @moduledoc """
+  Phoenix is able to collect metrics and send monitoring events of your application.
+  This module defines the supervisor responsible for managing the telemetry processes.
+  """
+
   use Supervisor
   import Telemetry.Metrics
 

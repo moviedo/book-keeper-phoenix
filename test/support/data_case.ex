@@ -28,8 +28,10 @@ defmodule BookKeeper.DataCase do
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(BookKeeper.Repo, shared: not tags[:async])
-    on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
+    alias Ecto.Adapters.SQL.Sandbox
+
+    pid = Sandbox.start_owner!(BookKeeper.Repo, shared: not tags[:async])
+    on_exit(fn -> Sandbox.stop_owner(pid) end)
     :ok
   end
 

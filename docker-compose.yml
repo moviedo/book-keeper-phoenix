@@ -2,7 +2,7 @@ version: '3.9'
 services:
   db:
     image: 'postgres:14-alpine'
-    container_name: db
+    container_name: book_keeper_db
     restart: always
     volumes:
       - 'db-data:/var/lib/postgresql/data'
@@ -10,17 +10,15 @@ services:
       POSTGRES_DB: book_keeper_dev
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres 
-    ports:
-      - '5432:5432'
   adminer:
     image: adminer
-    container_name: adminer
+    container_name: book_keeper_adminer 
     restart: always
     ports:
       - '8080:8080'
   web:
     build: .
-    container_name: web
+    container_name: book_keeper_web
     command: mix phx.server
     environment:
       MIX_ENV: dev

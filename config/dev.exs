@@ -69,8 +69,7 @@ config :git_hooks,
     ],
     pre_commit: [
       tasks: [
-        {:mix_task, :format, ["--check-formatted"]},
-        {:mix_task, :credo, ["--strict"]}
+        {:file, "./priv/githooks/pre_commit.sh"}
       ]
     ]
   ]
@@ -79,7 +78,7 @@ config :git_hooks,
 config :git_ops,
   mix_project: Mix.Project.get!(),
   changelog_file: "CHANGELOG.md",
-  repository_url: "https://gitlab.com/ToMauro/book-keeper-phoenix",
+  repository_url: "https://github.com/moviedo/book-keeper-phoenix",
   types: [
     build: [
       hidden?: true

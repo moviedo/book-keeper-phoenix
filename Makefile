@@ -7,13 +7,13 @@
 
 ## -- Phoenix Targets --
 
-## install phoenix package dependencies
-install_deps: 
-	@docker run \
-	-v "/$$(pwd)":/app \
-	-w /app \
-	elixir:1.12-alpine \
-	sh -c "mix local.hex --force && mix deps.get"
+## generate phoenix auth
+gen_auth: 
+	@docker-compose exec web mix phx.gen.auth Accounts User users --binary-id --hashing-lib argon2
+
+## install js dependencies for vue app
+install_js_deps: 
+	@docker-compose exec web sh -c "cd /app/vue_app/ && npm i"
 
 ## Checks linting on elixir files with formatter
 lint: 
@@ -23,32 +23,41 @@ lint:
 lint_fix:
 	@docker-compose exec web mix format
 
+## run application automated tests
+mix_test:
+	@docker-compose exec --env MIX_ENV=test web mix test
+
 ## create new phoenix project: make new_project APP=example
 new_project: 
 	@docker run \
 	-v "/$$(pwd)":/app \
 	-w /app \
-	elixir:1.12-alpine \
-	sh -c "mix local.hex --force && mix archive.install hex phx_new --force && mix phx.new ${APP} --install --no-html --no-assets"
+	--rm \
+	elixir:1.13-alpine \
+	sh -c "mix local.hex --force && mix archive.install hex phx_new --force && mix phx.new ${APP} --install --binary-id"
 
 ## project release and tag using conventional commit
 release:
-	@docker-compose run web mix git_ops.release
+	@docker-compose exec web mix git_ops.release
 
 ## restart web container so phoenix server can rebuild/restart
 restart:
-	@docker container restart web
+	@docker-compose restart web
 
-## start docker-compose containers
-start_docker:
-	@docker-compose down && \
-	docker-compose run web mix ecto.setup && \
-	docker-compose -f docker-compose.yml up -d --remove-orphans 
+## seed development database
+seed:
+	@docker-compose exec web mix run priv/repo/seeds.exs
+
+## setup initial development evvironment
+setup:
+	@docker-compose run --rm web sh -c "cd /app/vue_app/ && npm i" && \
+	docker-compose run --rm web mix setup && \
+	make start
 
 ## start development environment with docker-compose
 start: 
-	- @make install_deps
-	make start_docker
+	@docker-compose down && \
+	docker-compose -f docker-compose.yml up -d --remove-orphans
 
 ## stop development environment with docker-compose
 stop: 

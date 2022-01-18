@@ -8,12 +8,13 @@
 import Config
 
 config :book_keeper,
-  ecto_repos: [BookKeeper.Repo]
+  ecto_repos: [BookKeeper.Repo],
+  generators: [binary_id: true]
 
 # Configures the endpoint
 config :book_keeper, BookKeeperWeb.Endpoint,
   url: [host: "localhost"],
-  render_errors: [view: BookKeeperWeb.ErrorView, accepts: ~w(json), layout: false],
+  render_errors: [view: BookKeeperWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: BookKeeper.PubSub,
   live_view: [signing_salt: "y4xCrR0Q"]
 

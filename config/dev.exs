@@ -20,7 +20,10 @@ config :book_keeper, BookKeeperWeb.Endpoint,
   code_reloader: true,
   debug_errors: true,
   secret_key_base: "tOHtmG0Jd0Cpin309EGnEOyHJe03FHD1e4FuMtonyZ7Nkxuj9QDbR/LCG5agHkwh",
-  watchers: []
+  watchers: [
+    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+  ]
 
 # ## SSL Support
 #
@@ -45,6 +48,17 @@ config :book_keeper, BookKeeperWeb.Endpoint,
 # If desired, both `http:` and `https:` keys can be
 # configured to run both http and https servers on
 # different ports.
+
+# Watch static and templates for browser reloading.
+config :book_keeper, BookKeeperWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
+      ~r"priv/gettext/.*(po)$",
+      ~r"lib/book_keeper_web/(live|views)/.*(ex)$",
+      ~r"lib/book_keeper_web/templates/.*(eex)$"
+    ]
+  ]
 
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"

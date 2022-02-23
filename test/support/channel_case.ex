@@ -16,6 +16,7 @@ defmodule BookKeeperWeb.ChannelCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
 
   using do
     quote do
@@ -29,8 +30,6 @@ defmodule BookKeeperWeb.ChannelCase do
   end
 
   setup tags do
-    alias Ecto.Adapters.SQL.Sandbox
-
     pid = Sandbox.start_owner!(BookKeeper.Repo, shared: not tags[:async])
     on_exit(fn -> Sandbox.stop_owner(pid) end)
     :ok

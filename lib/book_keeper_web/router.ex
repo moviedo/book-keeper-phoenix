@@ -1,13 +1,32 @@
 defmodule BookKeeperWeb.Router do
   use BookKeeperWeb, :router
 
+  import BookKeeperWeb.UserAuth
+
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, {BookKeeperWeb.LayoutView, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :fetch_current_user
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
 
-  scope "/api", BookKeeperWeb do
-    pipe_through :api
+  scope "/", BookKeeperWeb do
+    pipe_through :browser
+
+    get "/", PageController, :index
   end
+
+  # Other scopes may use custom stacks.
+  # scope "/api", BookKeeperWeb do
+  #   pipe_through :api
+  # end
 
   # Enables LiveDashboard only for development
   #
@@ -20,7 +39,8 @@ defmodule BookKeeperWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through [:fetch_session, :protect_from_forgery]
+      pipe_through :browser
+
       live_dashboard "/dashboard", metrics: BookKeeperWeb.Telemetry
     end
   end
@@ -31,7 +51,7 @@ defmodule BookKeeperWeb.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through [:fetch_session, :protect_from_forgery]
+      pipe_through :browser
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end

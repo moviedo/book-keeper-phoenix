@@ -11,4 +11,13 @@ defmodule BookKeeperWeb.ErrorViewTest do
   test "renders 500.html" do
     assert render_to_string(BookKeeperWeb.ErrorView, "500.html", []) == "Internal Server Error"
   end
+
+  # test "renders 404.json" do
+  #   assert render(BookKeeperWeb.ErrorView, "404.json", []) == %{errors: %{detail: "Not Found"}}
+  # end
+
+  # test "renders 500.json" do
+  #   assert render(BookKeeperWeb.ErrorView, "500.json", []) ==
+  #            %{errors: %{detail: "Internal Server Error"}}
+  # end
 end
